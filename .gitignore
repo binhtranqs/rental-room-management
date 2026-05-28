@@ -1,0 +1,13 @@
+.DS_Store
+.env
+
+target/
+backend/target/
+
+.idea/
+backend/.idea/
+
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
