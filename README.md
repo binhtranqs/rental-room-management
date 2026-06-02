@@ -12,6 +12,7 @@ Day 1-2 foundation is in place:
 - JWT register/login flow.
 - Basic stateless Spring Security configuration.
 - Owner room CRUD with pagination, search, sorting, and status filter.
+- Owner tenant profile CRUD with tenant account creation.
 - Test profile using H2 so backend tests can run without local Docker.
 
 ## Local Backend Setup
@@ -79,5 +80,42 @@ Create/update body:
   "price": 3500000,
   "status": "AVAILABLE",
   "description": "Near school"
+}
+```
+
+## Tenant Endpoints
+
+All tenant endpoints require an `OWNER` token.
+
+```http
+GET /tenants?page=0&size=10&sort=createdAt,desc&keyword=demo
+GET /tenants/{id}
+POST /tenants
+PUT /tenants/{id}
+DELETE /tenants/{id}
+```
+
+Create body:
+
+```json
+{
+  "name": "Tenant Demo",
+  "email": "tenant@example.com",
+  "password": "123456",
+  "phone": "0909000001",
+  "identityNumber": "ID123456",
+  "emergencyContact": "Mom 0909000002"
+}
+```
+
+Update body:
+
+```json
+{
+  "name": "Tenant Demo",
+  "email": "tenant@example.com",
+  "phone": "0909000001",
+  "identityNumber": "ID123456",
+  "emergencyContact": "Mom 0909000002"
 }
 ```
