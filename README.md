@@ -13,6 +13,7 @@ Day 1-2 foundation is in place:
 - Basic stateless Spring Security configuration.
 - Owner room CRUD with pagination, search, sorting, and status filter.
 - Owner tenant profile CRUD with tenant account creation.
+- Contract create/list/detail/update/end with room status updates.
 - Test profile using H2 so backend tests can run without local Docker.
 
 ## Local Backend Setup
@@ -82,6 +83,34 @@ Create/update body:
   "description": "Near school"
 }
 ```
+
+## Contract Endpoints
+
+Owners can create, update, and end contracts. Owners and tenants can list/detail visible contracts.
+
+```http
+GET /contracts?page=0&size=10&sort=createdAt,desc&keyword=demo&status=ACTIVE
+GET /contracts/{id}
+POST /contracts
+PUT /contracts/{id}
+PATCH /contracts/{id}/end
+```
+
+Create/update body:
+
+```json
+{
+  "tenantId": 1,
+  "roomId": 1,
+  "startDate": "2026-06-03",
+  "endDate": "2027-06-03",
+  "deposit": 1000000,
+  "monthlyRent": 3500000,
+  "status": "ACTIVE"
+}
+```
+
+Creating an `ACTIVE` contract marks the room as `OCCUPIED`. Ending a contract marks the room as `AVAILABLE`.
 
 ## Tenant Endpoints
 
