@@ -14,6 +14,9 @@ Day 1-2 foundation is in place:
 - Owner room CRUD with pagination, search, sorting, and status filter.
 - Owner tenant profile CRUD with tenant account creation.
 - Contract create/list/detail/update/end with room status updates.
+- Swagger/OpenAPI documentation.
+- Standard API error responses for validation, malformed JSON, not found, conflict, and forbidden errors.
+- Backend service and MockMvc integration tests for auth and role-based access.
 - Test profile using H2 so backend tests can run without local Docker.
 
 ## Local Backend Setup
@@ -37,6 +40,14 @@ Run backend:
 cd backend
 ./mvnw spring-boot:run
 ```
+
+Open API documentation:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+For protected endpoints, click `Authorize` in Swagger UI and paste a JWT access token from `/auth/login`.
 
 ## Auth Endpoints
 
