@@ -1,6 +1,7 @@
 package com.example.rental.bill;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
@@ -85,6 +86,20 @@ public class BillService {
 		return BillResponse.from(billRepository.save(bill));
 	}
 
+	@Transactional
+	public BillResponse markPaid(User owner, Long id) {
+		validateOwner(owner);
+		Bill bill = findOwnedBill(owner, id);
+
+		if (bill.getStatus() == BillStatus.PAID) {
+			throw new ConflictException("Bill is already paid");
+		}
+
+		bill.setStatus(BillStatus.PAID);
+		bill.setPaidAt(Instant.now());
+		return BillResponse.from(bill);
+	}
+
 	private Bill findVisibleBill(User user, Long id) {
 		return billRepository.findById(id)
 				.filter(bill -> {
@@ -96,6 +111,12 @@ public class BillService {
 					}
 					return false;
 				})
+				.orElseThrow(() -> new NotFoundException("Bill not found"));
+	}
+
+	private Bill findOwnedBill(User owner, Long id) {
+		return billRepository.findById(id)
+				.filter(bill -> bill.getOwner().getId().equals(owner.getId()))
 				.orElseThrow(() -> new NotFoundException("Bill not found"));
 	}
 

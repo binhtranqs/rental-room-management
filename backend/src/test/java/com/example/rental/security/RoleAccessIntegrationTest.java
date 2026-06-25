@@ -1,6 +1,7 @@
 package com.example.rental.security;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -126,6 +127,10 @@ class RoleAccessIntegrationTest {
 								  "dueDate": "2026-06-10"
 								}
 								"""))
+				.andExpect(status().isForbidden());
+
+		mockMvc.perform(patch("/bills/1/mark-paid")
+						.header("Authorization", bearer(tenant)))
 				.andExpect(status().isForbidden());
 	}
 

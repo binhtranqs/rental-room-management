@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,5 +56,11 @@ public class BillController {
 			@AuthenticationPrincipal User owner,
 			@Valid @RequestBody BillRequest request) {
 		return billService.createBill(owner, request);
+	}
+
+	@PatchMapping("/{id}/mark-paid")
+	@PreAuthorize("hasRole('OWNER')")
+	public BillResponse markPaid(@AuthenticationPrincipal User owner, @PathVariable Long id) {
+		return billService.markPaid(owner, id);
 	}
 }

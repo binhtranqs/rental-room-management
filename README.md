@@ -132,6 +132,7 @@ Owners can create bills for active contracts they own. Owners and tenants can li
 GET /bills?page=0&size=10&sort=createdAt,desc&keyword=demo&status=UNPAID&month=2026-06-01
 GET /bills/{id}
 POST /bills
+PATCH /bills/{id}/mark-paid
 ```
 
 Create body:
@@ -149,6 +150,7 @@ Create body:
 ```
 
 `totalAmount` is calculated by the backend from rent and fee fields. If `status` is omitted, the bill starts as `UNPAID`.
+Marking a bill as paid sets `status` to `PAID` and records `paidAt`.
 
 ## Tenant Endpoints
 

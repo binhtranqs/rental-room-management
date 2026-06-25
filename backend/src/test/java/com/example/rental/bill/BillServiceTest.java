@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.example.rental.bill.dto.BillRequest;
+import com.example.rental.common.exception.ConflictException;
 import com.example.rental.common.exception.NotFoundException;
 import com.example.rental.contract.Contract;
 import com.example.rental.contract.ContractRepository;
@@ -78,6 +79,45 @@ class BillServiceTest {
 		assertThatThrownBy(() -> billService.getBill(otherTenant, bill.id()))
 				.isInstanceOf(NotFoundException.class)
 				.hasMessage("Bill not found");
+	}
+
+	@Test
+	void ownerCanMarkBillAsPaid() {
+		User owner = saveUser("bill-paid-owner@example.com", Role.OWNER);
+		User tenant = saveUser("bill-paid-tenant@example.com", Role.TENANT);
+		Contract contract = saveContract(owner, tenant, saveRoom(owner, "Paid Bill Room"));
+		var bill = billService.createBill(owner, request(contract.getId()));
+
+		var paidBill = billService.markPaid(owner, bill.id());
+
+		assertThat(paidBill.status()).isEqualTo(BillStatus.PAID);
+		assertThat(paidBill.paidAt()).isNotNull();
+	}
+
+	@Test
+	void ownerCannotMarkAnotherOwnersBillAsPaid() {
+		User owner = saveUser("bill-owner-a@example.com", Role.OWNER);
+		User anotherOwner = saveUser("bill-owner-b@example.com", Role.OWNER);
+		User tenant = saveUser("bill-owner-tenant@example.com", Role.TENANT);
+		Contract contract = saveContract(owner, tenant, saveRoom(owner, "Private Paid Bill Room"));
+		var bill = billService.createBill(owner, request(contract.getId()));
+
+		assertThatThrownBy(() -> billService.markPaid(anotherOwner, bill.id()))
+				.isInstanceOf(NotFoundException.class)
+				.hasMessage("Bill not found");
+	}
+
+	@Test
+	void markingAlreadyPaidBillReturnsConflict() {
+		User owner = saveUser("bill-already-paid-owner@example.com", Role.OWNER);
+		User tenant = saveUser("bill-already-paid-tenant@example.com", Role.TENANT);
+		Contract contract = saveContract(owner, tenant, saveRoom(owner, "Already Paid Bill Room"));
+		var bill = billService.createBill(owner, request(contract.getId()));
+		billService.markPaid(owner, bill.id());
+
+		assertThatThrownBy(() -> billService.markPaid(owner, bill.id()))
+				.isInstanceOf(ConflictException.class)
+				.hasMessage("Bill is already paid");
 	}
 
 	private BillRequest request(Long contractId) {
