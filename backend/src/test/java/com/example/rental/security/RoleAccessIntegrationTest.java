@@ -111,6 +111,22 @@ class RoleAccessIntegrationTest {
 								}
 								"""))
 				.andExpect(status().isForbidden());
+
+		mockMvc.perform(post("/bills")
+						.header("Authorization", bearer(tenant))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "contractId": 1,
+								  "month": "2026-06-01",
+								  "roomRent": 3500000,
+								  "electricityFee": 150000,
+								  "waterFee": 100000,
+								  "serviceFee": 100000,
+								  "dueDate": "2026-06-10"
+								}
+								"""))
+				.andExpect(status().isForbidden());
 	}
 
 	private User saveUser(String email, Role role) {

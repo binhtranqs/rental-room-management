@@ -14,6 +14,7 @@ Day 1-2 foundation is in place:
 - Owner room CRUD with pagination, search, sorting, and status filter.
 - Owner tenant profile CRUD with tenant account creation.
 - Contract create/list/detail/update/end with room status updates.
+- Bill create/list/detail with automatic total calculation.
 - Swagger/OpenAPI documentation.
 - Standard API error responses for validation, malformed JSON, not found, conflict, and forbidden errors.
 - Backend service and MockMvc integration tests for auth and role-based access.
@@ -122,6 +123,32 @@ Create/update body:
 ```
 
 Creating an `ACTIVE` contract marks the room as `OCCUPIED`. Ending a contract marks the room as `AVAILABLE`.
+
+## Bill Endpoints
+
+Owners can create bills for active contracts they own. Owners and tenants can list/detail visible bills.
+
+```http
+GET /bills?page=0&size=10&sort=createdAt,desc&keyword=demo&status=UNPAID&month=2026-06-01
+GET /bills/{id}
+POST /bills
+```
+
+Create body:
+
+```json
+{
+  "contractId": 1,
+  "month": "2026-06-01",
+  "roomRent": 3500000,
+  "electricityFee": 150000,
+  "waterFee": 100000,
+  "serviceFee": 100000,
+  "dueDate": "2026-06-10"
+}
+```
+
+`totalAmount` is calculated by the backend from rent and fee fields. If `status` is omitted, the bill starts as `UNPAID`.
 
 ## Tenant Endpoints
 
