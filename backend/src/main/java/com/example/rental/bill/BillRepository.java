@@ -1,5 +1,6 @@
 package com.example.rental.bill;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +12,22 @@ import org.springframework.data.repository.query.Param;
 import com.example.rental.user.User;
 
 public interface BillRepository extends JpaRepository<Bill, Long> {
+	long countByOwnerAndStatus(User owner, BillStatus status);
+
+	@Query("""
+			select coalesce(sum(b.totalAmount), 0)
+			from Bill b
+			where b.owner = :owner
+			and b.status = :status
+			and b.month >= :monthStart
+			and b.month < :nextMonthStart
+			""")
+	BigDecimal sumPaidRevenueByOwnerAndMonth(
+			@Param("owner") User owner,
+			@Param("status") BillStatus status,
+			@Param("monthStart") LocalDate monthStart,
+			@Param("nextMonthStart") LocalDate nextMonthStart);
+
 	@Query("""
 			select b from Bill b
 			join b.tenant t

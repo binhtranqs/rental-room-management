@@ -15,6 +15,7 @@ Day 1-2 foundation is in place:
 - Owner tenant profile CRUD with tenant account creation.
 - Contract create/list/detail/update/end with room status updates.
 - Bill create/list/detail with automatic total calculation.
+- Owner dashboard summary API.
 - Redis-backed login rate limiting.
 - Swagger/OpenAPI documentation.
 - Standard API error responses for validation, malformed JSON, not found, conflict, and forbidden errors.
@@ -164,6 +165,27 @@ Create body:
 
 `totalAmount` is calculated by the backend from rent and fee fields. If `status` is omitted, the bill starts as `UNPAID`.
 Marking a bill as paid sets `status` to `PAID` and records `paidAt`.
+
+## Dashboard Endpoints
+
+Owners can view their dashboard summary.
+
+```http
+GET /dashboard/owner
+```
+
+Response:
+
+```json
+{
+  "totalRooms": 10,
+  "occupiedRooms": 7,
+  "availableRooms": 3,
+  "activeContracts": 7,
+  "unpaidBills": 4,
+  "monthlyRevenue": 12000000
+}
+```
 
 ## Tenant Endpoints
 

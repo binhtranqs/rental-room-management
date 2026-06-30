@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import com.example.rental.user.User;
 
 public interface ContractRepository extends JpaRepository<Contract, Long> {
+	long countByOwnerAndStatus(User owner, ContractStatus status);
+
 	@Query("""
 			select c from Contract c
 			join c.tenant t

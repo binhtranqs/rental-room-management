@@ -9,6 +9,10 @@ import org.springframework.data.repository.query.Param;
 import com.example.rental.user.User;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
+	long countByOwner(User owner);
+
+	long countByOwnerAndStatus(User owner, RoomStatus status);
+
 	@Query("""
 			select r from Room r
 			where r.owner = :owner
