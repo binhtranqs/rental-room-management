@@ -15,6 +15,7 @@ Day 1-2 foundation is in place:
 - Owner tenant profile CRUD with tenant account creation.
 - Contract create/list/detail/update/end with room status updates.
 - Bill create/list/detail with automatic total calculation.
+- Redis-backed login rate limiting.
 - Swagger/OpenAPI documentation.
 - Standard API error responses for validation, malformed JSON, not found, conflict, and forbidden errors.
 - Backend service and MockMvc integration tests for auth and role-based access.
@@ -49,6 +50,18 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 For protected endpoints, click `Authorize` in Swagger UI and paste a JWT access token from `/auth/login`.
+
+## Login Rate Limit
+
+Failed `/auth/login` attempts are tracked in Redis with keys like `login:rate:{email}`.
+After 5 failed attempts within 15 minutes, the API returns `429 Too Many Requests`.
+A successful login clears that email's failed-attempt counter.
+
+Rate limiting is enabled by default. Disable it locally with:
+
+```bash
+APP_RATE_LIMIT_ENABLED=false ./mvnw spring-boot:run
+```
 
 ## Auth Endpoints
 

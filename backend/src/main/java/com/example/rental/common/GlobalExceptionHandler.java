@@ -17,6 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.example.rental.common.exception.ConflictException;
 import com.example.rental.common.exception.ForbiddenException;
 import com.example.rental.common.exception.NotFoundException;
+import com.example.rental.common.exception.RateLimitExceededException;
 
 import jakarta.validation.ConstraintViolationException;
 
@@ -55,6 +56,13 @@ public class GlobalExceptionHandler {
 		return ResponseEntity
 				.status(HttpStatus.UNAUTHORIZED)
 				.body(ApiError.of(HttpStatus.UNAUTHORIZED.value(), "Invalid email or password"));
+	}
+
+	@ExceptionHandler(RateLimitExceededException.class)
+	public ResponseEntity<ApiError> handleRateLimitExceeded(RateLimitExceededException exception) {
+		return ResponseEntity
+				.status(HttpStatus.TOO_MANY_REQUESTS)
+				.body(ApiError.of(HttpStatus.TOO_MANY_REQUESTS.value(), exception.getMessage()));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

@@ -1,6 +1,7 @@
 package com.example.rental.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,19 @@ public class AuthService {
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtService;
 	private final AuthenticationManager authenticationManager;
+	private final LoginRateLimitService loginRateLimitService;
 
 	public AuthService(
 			UserRepository userRepository,
 			PasswordEncoder passwordEncoder,
 			JwtService jwtService,
-			AuthenticationManager authenticationManager) {
+			AuthenticationManager authenticationManager,
+			LoginRateLimitService loginRateLimitService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtService = jwtService;
 		this.authenticationManager = authenticationManager;
+		this.loginRateLimitService = loginRateLimitService;
 	}
 
 	@Transactional
@@ -50,12 +54,20 @@ public class AuthService {
 	}
 
 	public AuthResponse login(LoginRequest request) {
-		authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+		loginRateLimitService.checkAllowed(request.email());
+
+		try {
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+		} catch (BadCredentialsException exception) {
+			loginRateLimitService.recordFailedAttempt(request.email());
+			throw exception;
+		}
 
 		User user = userRepository.findByEmail(request.email())
 				.orElseThrow();
 
+		loginRateLimitService.clearFailedAttempts(request.email());
 		return AuthResponse.bearer(jwtService.generateToken(user));
 	}
 }
