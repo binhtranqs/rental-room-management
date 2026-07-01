@@ -66,6 +66,7 @@ class RoleAccessIntegrationTest {
 	@Test
 	void tenantCannotAccessOwnerOnlyApis() throws Exception {
 		User tenant = saveUser("role-tenant-" + System.nanoTime() + "@example.com", Role.TENANT);
+		User owner = saveUser("role-owner-payment-" + System.nanoTime() + "@example.com", Role.OWNER);
 
 		mockMvc.perform(post("/rooms")
 						.header("Authorization", bearer(tenant))
@@ -131,6 +132,17 @@ class RoleAccessIntegrationTest {
 
 		mockMvc.perform(patch("/bills/1/mark-paid")
 						.header("Authorization", bearer(tenant)))
+				.andExpect(status().isForbidden());
+
+		mockMvc.perform(post("/payments/mock")
+						.header("Authorization", bearer(owner))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "billId": 1,
+								  "method": "MOCK_BANK_TRANSFER"
+								}
+								"""))
 				.andExpect(status().isForbidden());
 	}
 

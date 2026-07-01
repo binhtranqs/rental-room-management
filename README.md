@@ -15,6 +15,7 @@ Day 1-2 foundation is in place:
 - Owner tenant profile CRUD with tenant account creation.
 - Contract create/list/detail/update/end with room status updates.
 - Bill create/list/detail with automatic total calculation.
+- Mock tenant payment flow for bills.
 - Owner dashboard summary API.
 - Redis-backed login rate limiting.
 - Swagger/OpenAPI documentation.
@@ -165,6 +166,33 @@ Create body:
 
 `totalAmount` is calculated by the backend from rent and fee fields. If `status` is omitted, the bill starts as `UNPAID`.
 Marking a bill as paid sets `status` to `PAID` and records `paidAt`.
+
+## Payment Endpoints
+
+Tenants can pay their own unpaid or overdue bills through a mock payment flow.
+
+```http
+POST /payments/mock
+```
+
+Create body:
+
+```json
+{
+  "billId": 1,
+  "method": "MOCK_BANK_TRANSFER"
+}
+```
+
+Supported mock methods:
+
+```text
+MOCK_BANK_TRANSFER
+MOCK_CASH
+MOCK_E_WALLET
+```
+
+The backend creates a payment record, marks the bill as `PAID`, and records `paidAt`.
 
 ## Dashboard Endpoints
 
