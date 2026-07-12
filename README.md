@@ -27,6 +27,7 @@ Day 1-2 foundation is in place:
 - OWNER dashboard page connected to the backend summary API.
 - OWNER rooms frontend with list, filters, detail, create, edit, and delete flows.
 - OWNER tenants frontend with list, search, detail, create, edit, and delete flows.
+- OWNER contracts frontend with list, filters, create, detail, and end-contract flow.
 
 ## Local Backend Setup
 

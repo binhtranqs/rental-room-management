@@ -1,6 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
+import { ContractCreatePage } from '@/pages/ContractCreatePage'
+import { ContractDetailPage } from '@/pages/ContractDetailPage'
+import { ContractsListPage } from '@/pages/ContractsListPage'
 import { HomePage } from '@/pages/HomePage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
@@ -68,6 +71,18 @@ const router = createBrowserRouter([
           {
             path: 'owner/tenants/:id/edit',
             element: <TenantEditPage />,
+          },
+          {
+            path: 'owner/contracts',
+            element: <ContractsListPage />,
+          },
+          {
+            path: 'owner/contracts/new',
+            element: <ContractCreatePage />,
+          },
+          {
+            path: 'owner/contracts/:id',
+            element: <ContractDetailPage />,
           },
         ],
       },

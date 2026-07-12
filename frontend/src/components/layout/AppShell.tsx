@@ -1,4 +1,4 @@
-import { Building2, DoorOpen, LogOut, Users } from 'lucide-react'
+import { Building2, DoorOpen, FileSignature, LogOut, Users } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 
 import { getDefaultRouteForRole } from '@/auth/routes'
@@ -42,6 +42,12 @@ export function AppShell() {
                       <Link to="/owner/tenants">
                         <Users className="h-4 w-4" aria-hidden="true" />
                         Tenants
+                      </Link>
+                    </Button>
+                    <Button asChild variant="ghost" size="sm">
+                      <Link to="/owner/contracts">
+                        <FileSignature className="h-4 w-4" aria-hidden="true" />
+                        Contracts
                       </Link>
                     </Button>
                   </>
