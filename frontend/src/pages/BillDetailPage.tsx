@@ -1,9 +1,9 @@
-import { ArrowLeft, Banknote, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, Banknote, CheckCircle2, ExternalLink, QrCode } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { getBillRequest, markBillPaidRequest } from '@/api/bills'
-import { createMockPaymentRequest } from '@/api/payments'
+import { createMockPaymentRequest, createMomoPaymentRequest } from '@/api/payments'
 import { useAuth } from '@/auth/useAuth'
 import { BillStatusBadge } from '@/components/bills/BillStatusBadge'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,7 @@ export function BillDetailPage() {
     useState<PaymentMethod>('MOCK_BANK_TRANSFER')
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState(false)
+  const [isMomoRedirecting, setIsMomoRedirecting] = useState(false)
   const [error, setError] = useState('')
 
   const listPath = user?.role === 'TENANT' ? '/tenant/bills' : '/owner/bills'
@@ -71,6 +72,26 @@ export function BillDetailPage() {
       setError(getErrorMessage(exception, 'Cannot pay bill'))
     } finally {
       setIsUpdating(false)
+    }
+  }
+
+  async function handleMomoPayment() {
+    setIsMomoRedirecting(true)
+    setError('')
+
+    try {
+      const payment = await createMomoPaymentRequest(billId)
+
+      if (!payment.payUrl) {
+        setError(payment.message ?? 'MoMo did not return a payment URL')
+        setIsMomoRedirecting(false)
+        return
+      }
+
+      window.location.assign(payment.payUrl)
+    } catch (exception) {
+      setError(getErrorMessage(exception, 'Cannot create MoMo payment'))
+      setIsMomoRedirecting(false)
     }
   }
 
@@ -154,30 +175,66 @@ export function BillDetailPage() {
 
       {canPay ? (
         <article className="rounded-md border border-border bg-card p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-foreground">Mock payment</h2>
-          <p className="mt-2 text-sm text-muted">
-            Pay this bill through the local mock payment flow.
-          </p>
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <select
-              className="h-10 rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
-              value={paymentMethod}
-              onChange={(event) =>
-                setPaymentMethod(event.target.value as PaymentMethod)
-              }
-            >
-              <option value="MOCK_BANK_TRANSFER">MOCK_BANK_TRANSFER</option>
-              <option value="MOCK_CASH">MOCK_CASH</option>
-              <option value="MOCK_E_WALLET">MOCK_E_WALLET</option>
-            </select>
-            <Button
-              type="button"
-              onClick={() => void handleMockPayment()}
-              disabled={isUpdating}
-            >
-              <Banknote className="h-4 w-4" aria-hidden="true" />
-              {isUpdating ? 'Paying...' : 'Pay now'}
-            </Button>
+          <h2 className="text-lg font-semibold text-foreground">Payment</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+            <div className="rounded-md border border-border bg-white p-4">
+              <div className="flex items-start gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-pink-50 text-pink-600">
+                  <QrCode className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 className="font-medium text-foreground">MoMo sandbox</h3>
+                  <p className="mt-1 text-sm leading-6 text-muted">
+                    Create a MoMo payment request and continue on the MoMo page.
+                  </p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                className="mt-4 w-full sm:w-auto"
+                onClick={() => void handleMomoPayment()}
+                disabled={isUpdating || isMomoRedirecting}
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                {isMomoRedirecting ? 'Redirecting...' : 'Pay with MoMo'}
+              </Button>
+            </div>
+
+            <div className="rounded-md border border-border bg-white p-4">
+              <div className="flex items-start gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-primary">
+                  <Banknote className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 className="font-medium text-foreground">Mock payment</h3>
+                  <p className="mt-1 text-sm leading-6 text-muted">
+                    Complete this bill immediately in local development.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+                <select
+                  className="h-10 rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+                  value={paymentMethod}
+                  onChange={(event) =>
+                    setPaymentMethod(event.target.value as PaymentMethod)
+                  }
+                >
+                  <option value="MOCK_BANK_TRANSFER">MOCK_BANK_TRANSFER</option>
+                  <option value="MOCK_CASH">MOCK_CASH</option>
+                  <option value="MOCK_E_WALLET">MOCK_E_WALLET</option>
+                </select>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => void handleMockPayment()}
+                  disabled={isUpdating || isMomoRedirecting}
+                >
+                  <Banknote className="h-4 w-4" aria-hidden="true" />
+                  {isUpdating ? 'Paying...' : 'Pay mock'}
+                </Button>
+              </div>
+            </div>
           </div>
         </article>
       ) : null}

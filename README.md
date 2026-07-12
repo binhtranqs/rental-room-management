@@ -29,6 +29,7 @@ Day 1-2 foundation is in place:
 - OWNER tenants frontend with list, search, detail, create, edit, and delete flows.
 - OWNER contracts frontend with list, filters, create, detail, and end-contract flow.
 - Bills frontend for owners and tenants, bill detail actions, and TENANT dashboard.
+- Tenant bill detail can start MoMo sandbox payment or use the local mock payment fallback.
 
 ## Local Backend Setup
 
