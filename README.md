@@ -23,6 +23,7 @@ Day 1-2 foundation is in place:
 - Backend service and MockMvc integration tests for auth and role-based access.
 - Test profile using H2 so backend tests can run without local Docker.
 - React + Vite + TypeScript frontend foundation with Tailwind, shadcn/ui conventions, routing, and API client.
+- Frontend login flow with JWT storage, current-user session loading, protected routes, role redirects, and logout.
 
 ## Local Backend Setup
 

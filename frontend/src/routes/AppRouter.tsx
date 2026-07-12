@@ -2,8 +2,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
 import { HomePage } from '@/pages/HomePage'
-import { LoginPlaceholderPage } from '@/pages/LoginPlaceholderPage'
+import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
+import { OwnerDashboardPlaceholderPage } from '@/pages/OwnerDashboardPlaceholderPage'
+import { TenantDashboardPlaceholderPage } from '@/pages/TenantDashboardPlaceholderPage'
+import { ProtectedRoute } from '@/routes/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
@@ -17,7 +20,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <LoginPlaceholderPage />,
+        element: <LoginPage />,
+      },
+      {
+        element: <ProtectedRoute allowedRoles={['OWNER']} />,
+        children: [
+          {
+            path: 'owner/dashboard',
+            element: <OwnerDashboardPlaceholderPage />,
+          },
+        ],
+      },
+      {
+        element: <ProtectedRoute allowedRoles={['TENANT']} />,
+        children: [
+          {
+            path: 'tenant/dashboard',
+            element: <TenantDashboardPlaceholderPage />,
+          },
+        ],
       },
     ],
   },

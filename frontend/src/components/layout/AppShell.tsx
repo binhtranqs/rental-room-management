@@ -1,9 +1,13 @@
-import { Building2 } from 'lucide-react'
+import { Building2, LogOut } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 
+import { getDefaultRouteForRole } from '@/auth/routes'
+import { useAuth } from '@/auth/useAuth'
 import { Button } from '@/components/ui/button'
 
 export function AppShell() {
+  const { user, logout } = useAuth()
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
@@ -21,9 +25,21 @@ export function AppShell() {
             <Button asChild variant="ghost" size="sm">
               <Link to="/">Home</Link>
             </Button>
-            <Button asChild size="sm">
-              <Link to="/login">Login</Link>
-            </Button>
+            {user ? (
+              <>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to={getDefaultRouteForRole(user.role)}>Dashboard</Link>
+                </Button>
+                <Button type="button" size="sm" onClick={logout}>
+                  <LogOut className="h-4 w-4" aria-hidden="true" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button asChild size="sm">
+                <Link to="/login">Login</Link>
+              </Button>
+            )}
           </nav>
         </div>
       </header>
