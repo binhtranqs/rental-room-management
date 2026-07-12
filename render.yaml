@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: rental-room-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rental-room-db
+          property: connectionString
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: APP_RATE_LIMIT_ENABLED
+        value: false
+      - key: APP_CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: APP_JWT_SECRET
+        generateValue: true
+      - key: APP_JWT_EXPIRATION_MS
+        value: 86400000
+      - key: APP_MOMO_ENDPOINT
+        value: https://test-payment.momo.vn/v2/gateway/api/create
+      - key: APP_MOMO_PARTNER_CODE
+        sync: false
+      - key: APP_MOMO_ACCESS_KEY
+        sync: false
+      - key: APP_MOMO_SECRET_KEY
+        sync: false
+      - key: APP_MOMO_REDIRECT_URL
+        sync: false
+      - key: APP_MOMO_IPN_URL
+        sync: false
+
+databases:
+  - name: rental-room-db
+    databaseName: rental_room_db
+    user: rental_room_user
