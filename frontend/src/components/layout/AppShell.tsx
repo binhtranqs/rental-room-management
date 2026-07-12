@@ -1,4 +1,4 @@
-import { Building2, LogOut } from 'lucide-react'
+import { Building2, DoorOpen, LogOut } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 
 import { getDefaultRouteForRole } from '@/auth/routes'
@@ -30,6 +30,14 @@ export function AppShell() {
                 <Button asChild variant="ghost" size="sm">
                   <Link to={getDefaultRouteForRole(user.role)}>Dashboard</Link>
                 </Button>
+                {user.role === 'OWNER' ? (
+                  <Button asChild variant="ghost" size="sm">
+                    <Link to="/owner/rooms">
+                      <DoorOpen className="h-4 w-4" aria-hidden="true" />
+                      Rooms
+                    </Link>
+                  </Button>
+                ) : null}
                 <Button type="button" size="sm" onClick={logout}>
                   <LogOut className="h-4 w-4" aria-hidden="true" />
                   Logout

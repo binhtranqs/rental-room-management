@@ -25,6 +25,7 @@ Day 1-2 foundation is in place:
 - React + Vite + TypeScript frontend foundation with Tailwind, shadcn/ui conventions, routing, and API client.
 - Frontend login flow with JWT storage, current-user session loading, protected routes, role redirects, and logout.
 - OWNER dashboard page connected to the backend summary API.
+- OWNER rooms frontend with list, filters, detail, create, edit, and delete flows.
 
 ## Local Backend Setup
 
