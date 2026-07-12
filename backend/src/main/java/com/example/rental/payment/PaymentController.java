@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.rental.payment.dto.MomoPaymentRequest;
+import com.example.rental.payment.dto.MomoPaymentResponse;
 import com.example.rental.payment.dto.PaymentRequest;
 import com.example.rental.payment.dto.PaymentResponse;
 import com.example.rental.user.User;
@@ -31,5 +33,13 @@ public class PaymentController {
 			@AuthenticationPrincipal User tenant,
 			@Valid @RequestBody PaymentRequest request) {
 		return paymentService.createMockPayment(tenant, request);
+	}
+
+	@PostMapping("/momo")
+	@ResponseStatus(HttpStatus.CREATED)
+	public MomoPaymentResponse createMomoPayment(
+			@AuthenticationPrincipal User tenant,
+			@Valid @RequestBody MomoPaymentRequest request) {
+		return paymentService.createMomoPayment(tenant, request);
 	}
 }

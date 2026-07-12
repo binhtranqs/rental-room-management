@@ -64,8 +64,28 @@ public class Payment {
 	@Column(nullable = false)
 	private PaymentStatus status;
 
-	@Column(nullable = false)
+	@Column
 	private Instant paidAt;
+
+	@Column(length = 200)
+	private String externalOrderId;
+
+	@Column(length = 50)
+	private String externalRequestId;
+
+	@Column(length = 1000)
+	private String payUrl;
+
+	@Column(length = 1000)
+	private String deeplink;
+
+	@Column(length = 1000)
+	private String qrCodeUrl;
+
+	private Integer gatewayResultCode;
+
+	@Column(length = 255)
+	private String gatewayMessage;
 
 	@CreatedDate
 	@Column(nullable = false, updatable = false)

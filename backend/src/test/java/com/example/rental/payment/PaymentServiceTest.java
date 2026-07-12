@@ -19,6 +19,7 @@ import com.example.rental.common.exception.NotFoundException;
 import com.example.rental.contract.Contract;
 import com.example.rental.contract.ContractRepository;
 import com.example.rental.contract.ContractStatus;
+import com.example.rental.payment.dto.MomoPaymentRequest;
 import com.example.rental.payment.dto.PaymentRequest;
 import com.example.rental.room.Room;
 import com.example.rental.room.RoomRepository;
@@ -96,6 +97,21 @@ class PaymentServiceTest {
 				new PaymentRequest(bill.getId(), PaymentMethod.MOCK_CASH)))
 				.isInstanceOf(ConflictException.class)
 				.hasMessage("Bill is already paid");
+	}
+
+	@Test
+	void momoPaymentRequiresConfigurationAndKeepsBillUnpaid() {
+		User owner = saveUser("payment-momo-owner-" + System.nanoTime() + "@example.com", Role.OWNER);
+		User tenant = saveUser("payment-momo-tenant-" + System.nanoTime() + "@example.com", Role.TENANT);
+		Bill bill = saveBill(owner, tenant, BillStatus.UNPAID);
+
+		assertThatThrownBy(() -> paymentService.createMomoPayment(tenant, new MomoPaymentRequest(bill.getId())))
+				.isInstanceOf(ConflictException.class)
+				.hasMessage("MoMo payment is not configured. Use mock payment instead.");
+
+		Bill unchangedBill = billRepository.findById(bill.getId()).orElseThrow();
+		assertThat(unchangedBill.getStatus()).isEqualTo(BillStatus.UNPAID);
+		assertThat(unchangedBill.getPaidAt()).isNull();
 	}
 
 	private Bill saveBill(User owner, User tenant, BillStatus status) {

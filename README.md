@@ -97,6 +97,12 @@ SPRING_DATA_REDIS_PORT=6379
 APP_JWT_SECRET=change-this-secret-key-change-this-secret-key
 APP_JWT_EXPIRATION_MS=86400000
 APP_RATE_LIMIT_ENABLED=true
+APP_MOMO_ENDPOINT=https://test-payment.momo.vn/v2/gateway/api/create
+APP_MOMO_PARTNER_CODE=
+APP_MOMO_ACCESS_KEY=
+APP_MOMO_SECRET_KEY=
+APP_MOMO_REDIRECT_URL=http://localhost:5173/tenant/bills
+APP_MOMO_IPN_URL=http://localhost:8080/payments/momo/ipn
 ```
 
 Tests use the `test` profile with H2 and `APP_RATE_LIMIT_ENABLED=false`, so tests do not need Docker.
@@ -270,6 +276,24 @@ MOCK_E_WALLET
 ```
 
 The backend creates a payment record, marks the bill as `PAID`, and records `paidAt`.
+
+Tenants can also create a MoMo sandbox payment request when MoMo credentials are configured.
+
+```http
+POST /payments/momo
+```
+
+Create body:
+
+```json
+{
+  "billId": 1
+}
+```
+
+The backend calls MoMo sandbox `captureWallet`, stores a `PENDING` payment with MoMo `orderId`, `requestId`, `payUrl`, `deeplink`, and `qrCodeUrl`, then returns those values to the client. This does not mark the bill as `PAID` yet; the MoMo return/IPN callback flow handles that.
+
+If MoMo environment variables are blank, the endpoint returns a conflict response and `/payments/mock` remains available for local development.
 
 ## Dashboard Endpoints
 
