@@ -295,6 +295,15 @@ The backend calls MoMo sandbox `captureWallet`, stores a `PENDING` payment with 
 
 If MoMo environment variables are blank, the endpoint returns a conflict response and `/payments/mock` remains available for local development.
 
+MoMo callback endpoints are public because MoMo calls them server-to-server or redirects the user's browser back after payment:
+
+```http
+POST /payments/momo/ipn
+GET /payments/momo/return
+```
+
+Both endpoints verify the MoMo HMAC SHA256 signature. A successful callback with `resultCode = 0` marks the matching `PENDING` payment as `SUCCESS`, stores MoMo transaction metadata, marks the bill as `PAID`, and records `paidAt`. A failed callback keeps the bill unpaid and marks the pending payment as `FAILED`.
+
 ## Dashboard Endpoints
 
 Owners can view their dashboard summary.

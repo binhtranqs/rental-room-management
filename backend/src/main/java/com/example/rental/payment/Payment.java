@@ -82,10 +82,15 @@ public class Payment {
 	@Column(length = 1000)
 	private String qrCodeUrl;
 
+	private Long externalTransactionId;
+
 	private Integer gatewayResultCode;
 
 	@Column(length = 255)
 	private String gatewayMessage;
+
+	@Column(length = 50)
+	private String gatewayPayType;
 
 	@CreatedDate
 	@Column(nullable = false, updatable = false)

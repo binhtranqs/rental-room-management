@@ -34,7 +34,13 @@ public class SecurityConfig {
 				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/auth/register", "/auth/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+						.requestMatchers(
+								"/auth/register",
+								"/auth/login",
+								"/payments/momo/ipn",
+								"/payments/momo/return",
+								"/swagger-ui/**",
+								"/v3/api-docs/**").permitAll()
 						.anyRequest().authenticated())
 				.build();
 	}

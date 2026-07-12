@@ -25,6 +25,8 @@ import com.example.rental.common.exception.ConflictException;
 import com.example.rental.common.exception.ForbiddenException;
 import com.example.rental.common.exception.NotFoundException;
 import com.example.rental.payment.dto.MomoCreatePaymentResponse;
+import com.example.rental.payment.dto.MomoPaymentCallbackRequest;
+import com.example.rental.payment.dto.MomoPaymentCallbackResponse;
 import com.example.rental.payment.dto.MomoPaymentRequest;
 import com.example.rental.payment.dto.MomoPaymentResponse;
 import com.example.rental.payment.dto.PaymentRequest;
@@ -147,6 +149,38 @@ public class PaymentService {
 		return MomoPaymentResponse.from(paymentRepository.save(payment), momoPartnerCode);
 	}
 
+	@Transactional
+	public MomoPaymentCallbackResponse handleMomoCallback(MomoPaymentCallbackRequest request) {
+		validateMomoConfiguration();
+		validateMomoCallback(request);
+
+		Payment payment = paymentRepository
+				.findByExternalOrderIdAndExternalRequestId(request.orderId(), request.requestId())
+				.orElseThrow(() -> new NotFoundException("MoMo payment not found"));
+
+		if (payment.getAmount().setScale(0, RoundingMode.HALF_UP).longValue() != request.amount()) {
+			throw new ConflictException("MoMo payment amount does not match bill amount");
+		}
+
+		payment.setExternalTransactionId(request.transId());
+		payment.setGatewayResultCode(request.resultCode());
+		payment.setGatewayMessage(request.message());
+		payment.setGatewayPayType(request.payType());
+
+		if (request.resultCode() == 0 && payment.getStatus() != PaymentStatus.SUCCESS) {
+			Instant paidAt = Instant.now(clock);
+			payment.setStatus(PaymentStatus.SUCCESS);
+			payment.setPaidAt(paidAt);
+			payment.getBill().setStatus(BillStatus.PAID);
+			payment.getBill().setPaidAt(paidAt);
+		}
+		else if (request.resultCode() != 0 && payment.getStatus() == PaymentStatus.PENDING) {
+			payment.setStatus(PaymentStatus.FAILED);
+		}
+
+		return MomoPaymentCallbackResponse.from(paymentRepository.save(payment));
+	}
+
 	private void validateTenant(User user) {
 		if (user.getRole() != Role.TENANT) {
 			throw new ForbiddenException("Only tenants can pay bills");
@@ -192,13 +226,46 @@ public class PaymentService {
 				+ "&requestId=" + requestId
 				+ "&requestType=" + MOMO_REQUEST_TYPE;
 
+		return hmacSha256(rawSignature);
+	}
+
+	private void validateMomoCallback(MomoPaymentCallbackRequest request) {
+		if (!momoPartnerCode.equals(request.partnerCode())) {
+			throw new ForbiddenException("Invalid MoMo partner code");
+		}
+
+		String rawSignature = "accessKey=" + momoAccessKey
+				+ "&amount=" + request.amount()
+				+ "&extraData=" + nullToEmpty(request.extraData())
+				+ "&message=" + request.message()
+				+ "&orderId=" + request.orderId()
+				+ "&orderInfo=" + request.orderInfo()
+				+ "&orderType=" + request.orderType()
+				+ "&partnerCode=" + request.partnerCode()
+				+ "&payType=" + request.payType()
+				+ "&requestId=" + request.requestId()
+				+ "&responseTime=" + request.responseTime()
+				+ "&resultCode=" + request.resultCode()
+				+ "&transId=" + request.transId();
+
+		String expectedSignature = hmacSha256(rawSignature);
+		if (!expectedSignature.equalsIgnoreCase(request.signature())) {
+			throw new ForbiddenException("Invalid MoMo callback signature");
+		}
+	}
+
+	private String nullToEmpty(String value) {
+		return value == null ? "" : value;
+	}
+
+	private String hmacSha256(String value) {
 		try {
 			Mac mac = Mac.getInstance("HmacSHA256");
 			SecretKeySpec secretKeySpec = new SecretKeySpec(
 					momoSecretKey.getBytes(StandardCharsets.UTF_8),
 					"HmacSHA256");
 			mac.init(secretKeySpec);
-			return HexFormat.of().formatHex(mac.doFinal(rawSignature.getBytes(StandardCharsets.UTF_8)));
+			return HexFormat.of().formatHex(mac.doFinal(value.getBytes(StandardCharsets.UTF_8)));
 		}
 		catch (Exception ex) {
 			throw new ConflictException("Cannot sign MoMo payment request");
