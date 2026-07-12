@@ -24,6 +24,7 @@ Day 1-2 foundation is in place:
 - Test profile using H2 so backend tests can run without local Docker.
 - React + Vite + TypeScript frontend foundation with Tailwind, shadcn/ui conventions, routing, and API client.
 - Frontend login flow with JWT storage, current-user session loading, protected routes, role redirects, and logout.
+- OWNER dashboard page connected to the backend summary API.
 
 ## Local Backend Setup
 
