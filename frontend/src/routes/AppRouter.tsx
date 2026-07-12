@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
+import { BillDetailPage } from '@/pages/BillDetailPage'
+import { BillsListPage } from '@/pages/BillsListPage'
 import { ContractCreatePage } from '@/pages/ContractCreatePage'
 import { ContractDetailPage } from '@/pages/ContractDetailPage'
 import { ContractsListPage } from '@/pages/ContractsListPage'
@@ -13,7 +15,7 @@ import { RoomDetailPage } from '@/pages/RoomDetailPage'
 import { RoomEditPage } from '@/pages/RoomEditPage'
 import { RoomsListPage } from '@/pages/RoomsListPage'
 import { TenantCreatePage } from '@/pages/TenantCreatePage'
-import { TenantDashboardPlaceholderPage } from '@/pages/TenantDashboardPlaceholderPage'
+import { TenantDashboardPage } from '@/pages/TenantDashboardPage'
 import { TenantDetailPage } from '@/pages/TenantDetailPage'
 import { TenantEditPage } from '@/pages/TenantEditPage'
 import { TenantsListPage } from '@/pages/TenantsListPage'
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
             path: 'owner/contracts/:id',
             element: <ContractDetailPage />,
           },
+          {
+            path: 'owner/bills',
+            element: <BillsListPage />,
+          },
+          {
+            path: 'owner/bills/:id',
+            element: <BillDetailPage />,
+          },
         ],
       },
       {
@@ -91,7 +101,15 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'tenant/dashboard',
-            element: <TenantDashboardPlaceholderPage />,
+            element: <TenantDashboardPage />,
+          },
+          {
+            path: 'tenant/bills',
+            element: <BillsListPage />,
+          },
+          {
+            path: 'tenant/bills/:id',
+            element: <BillDetailPage />,
           },
         ],
       },

@@ -1,4 +1,11 @@
-import { Building2, DoorOpen, FileSignature, LogOut, Users } from 'lucide-react'
+import {
+  Building2,
+  DoorOpen,
+  FileSignature,
+  LogOut,
+  ReceiptText,
+  Users,
+} from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 
 import { getDefaultRouteForRole } from '@/auth/routes'
@@ -50,7 +57,21 @@ export function AppShell() {
                         Contracts
                       </Link>
                     </Button>
+                    <Button asChild variant="ghost" size="sm">
+                      <Link to="/owner/bills">
+                        <ReceiptText className="h-4 w-4" aria-hidden="true" />
+                        Bills
+                      </Link>
+                    </Button>
                   </>
+                ) : null}
+                {user.role === 'TENANT' ? (
+                  <Button asChild variant="ghost" size="sm">
+                    <Link to="/tenant/bills">
+                      <ReceiptText className="h-4 w-4" aria-hidden="true" />
+                      Bills
+                    </Link>
+                  </Button>
                 ) : null}
                 <Button type="button" size="sm" onClick={logout}>
                   <LogOut className="h-4 w-4" aria-hidden="true" />
