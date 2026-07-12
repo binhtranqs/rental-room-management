@@ -22,13 +22,30 @@ Day 1-2 foundation is in place:
 - Standard API error responses for validation, malformed JSON, not found, conflict, and forbidden errors.
 - Backend service and MockMvc integration tests for auth and role-based access.
 - Test profile using H2 so backend tests can run without local Docker.
+- React + Vite + TypeScript frontend foundation with Tailwind, shadcn/ui conventions, routing, and API client.
 
 ## Local Backend Setup
 
-Start infrastructure:
+Required local services:
+
+```text
+PostgreSQL: localhost:5433
+Redis:      localhost:6379
+Backend:    localhost:8080
+```
+
+Start PostgreSQL and Redis:
 
 ```bash
 docker compose up -d
+```
+
+Check Docker services:
+
+```bash
+docker compose ps
+docker compose exec postgres pg_isready -U postgres -d rental_room_db
+docker compose exec redis redis-cli ping
 ```
 
 Run backend tests:
@@ -45,6 +62,14 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
+Stop backend with `Ctrl+C`.
+
+Stop Docker services when you are done:
+
+```bash
+docker compose down
+```
+
 Open API documentation:
 
 ```text
@@ -52,6 +77,52 @@ http://localhost:8080/swagger-ui/index.html
 ```
 
 For protected endpoints, click `Authorize` in Swagger UI and paste a JWT access token from `/auth/login`.
+
+## Backend Environment Variables
+
+The backend has local defaults for development, so you can run it without exporting variables after Docker is up.
+
+```text
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/rental_room_db
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=postgres
+SPRING_DATA_REDIS_HOST=localhost
+SPRING_DATA_REDIS_PORT=6379
+APP_JWT_SECRET=change-this-secret-key-change-this-secret-key
+APP_JWT_EXPIRATION_MS=86400000
+APP_RATE_LIMIT_ENABLED=true
+```
+
+Tests use the `test` profile with H2 and `APP_RATE_LIMIT_ENABLED=false`, so tests do not need Docker.
+
+## Local Frontend Setup
+
+Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+Run frontend:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Build frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+The frontend calls the backend at `http://localhost:8080` by default. Override it with:
+
+```bash
+VITE_API_BASE_URL=http://localhost:8080 npm run dev
+```
 
 ## Login Rate Limit
 
