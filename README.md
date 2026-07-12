@@ -26,6 +26,7 @@ Day 1-2 foundation is in place:
 - Frontend login flow with JWT storage, current-user session loading, protected routes, role redirects, and logout.
 - OWNER dashboard page connected to the backend summary API.
 - OWNER rooms frontend with list, filters, detail, create, edit, and delete flows.
+- OWNER tenants frontend with list, search, detail, create, edit, and delete flows.
 
 ## Local Backend Setup
 

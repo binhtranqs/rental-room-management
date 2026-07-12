@@ -9,7 +9,11 @@ import { RoomCreatePage } from '@/pages/RoomCreatePage'
 import { RoomDetailPage } from '@/pages/RoomDetailPage'
 import { RoomEditPage } from '@/pages/RoomEditPage'
 import { RoomsListPage } from '@/pages/RoomsListPage'
+import { TenantCreatePage } from '@/pages/TenantCreatePage'
 import { TenantDashboardPlaceholderPage } from '@/pages/TenantDashboardPlaceholderPage'
+import { TenantDetailPage } from '@/pages/TenantDetailPage'
+import { TenantEditPage } from '@/pages/TenantEditPage'
+import { TenantsListPage } from '@/pages/TenantsListPage'
 import { ProtectedRoute } from '@/routes/ProtectedRoute'
 
 const router = createBrowserRouter([
@@ -48,6 +52,22 @@ const router = createBrowserRouter([
           {
             path: 'owner/rooms/:id/edit',
             element: <RoomEditPage />,
+          },
+          {
+            path: 'owner/tenants',
+            element: <TenantsListPage />,
+          },
+          {
+            path: 'owner/tenants/new',
+            element: <TenantCreatePage />,
+          },
+          {
+            path: 'owner/tenants/:id',
+            element: <TenantDetailPage />,
+          },
+          {
+            path: 'owner/tenants/:id/edit',
+            element: <TenantEditPage />,
           },
         ],
       },
