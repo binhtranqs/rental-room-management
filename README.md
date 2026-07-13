@@ -2,6 +2,25 @@
 
 Full-stack rental room management project for internship CV.
 
+## Deployed MVP
+
+```text
+Frontend: https://rental-room-management-henna.vercel.app
+Backend:  https://rental-room-backend-642g.onrender.com
+Health:   https://rental-room-backend-642g.onrender.com/health
+Swagger:  https://rental-room-backend-642g.onrender.com/swagger-ui/index.html
+```
+
+Day 27 deployed smoke test passed:
+
+- Frontend Vercel root and protected route refresh return `200`.
+- Backend Render `/health` returns `{"status":"ok"}`.
+- CORS allows the Vercel origin.
+- Owner can register/login against the deployed backend.
+- Owner can create room, tenant, contract, and bill.
+- Tenant can login and pay the bill through mock payment.
+- Paid bill updates owner dashboard revenue.
+
 ## Current Scope
 
 Day 1-2 foundation is in place:
