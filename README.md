@@ -11,15 +11,28 @@ Health:   https://rental-room-backend-642g.onrender.com/health
 Swagger:  https://rental-room-backend-642g.onrender.com/swagger-ui/index.html
 ```
 
-Day 27 deployed smoke test passed:
+Day 28 deployed smoke test passed:
 
 - Frontend Vercel root and protected route refresh return `200`.
 - Backend Render `/health` returns `{"status":"ok"}`.
 - CORS allows the Vercel origin.
 - Owner can register/login against the deployed backend.
 - Owner can create room, tenant, contract, and bill.
-- Tenant can login and pay the bill through mock payment.
+- Active contracts mark rooms as occupied.
+- Tenant can login, can only see their own bills, and can pay through mock payment.
 - Paid bill updates owner dashboard revenue.
+- Ending a contract releases the room back to available.
+- GitHub Actions CI runs backend tests and frontend build/lint.
+
+Latest deployed demo credentials:
+
+```text
+Owner:  owner.demo.20260713151259@example.com
+Tenant: linh.tran.20260713151259.1@example.com
+Password for both: Demo123456
+```
+
+Render free instances sleep, so the first backend request can take around 30-60 seconds.
 
 ## Current Scope
 
@@ -49,6 +62,8 @@ Day 1-2 foundation is in place:
 - OWNER contracts frontend with list, filters, create, detail, and end-contract flow.
 - Bills frontend for owners and tenants, bill detail actions, and TENANT dashboard.
 - Tenant bill detail can start MoMo sandbox payment or use the local mock payment fallback.
+- AI-assisted owner insights, owner Q&A, and bill reminder drafting with a rules fallback when no OpenAI key is configured.
+- Cinematic landing page, owner registration page, polished owner/tenant dashboard UI, and responsive public/auth screens.
 
 ## Local Backend Setup
 
@@ -157,6 +172,41 @@ The frontend calls the backend at `http://localhost:8080` by default. Override i
 VITE_API_BASE_URL=http://localhost:8080 npm run dev
 ```
 
+## Business Workflow Smoke Test
+
+Use the smoke script when you want to verify the whole owner-to-tenant workflow through API calls.
+It creates a fresh owner, room, tenant, active contract, bill, mock payment, and then ends the contract.
+
+Run against local backend:
+
+```bash
+node scripts/smoke-business-workflow.mjs
+```
+
+Run against deployed Render backend:
+
+```bash
+API_BASE_URL=https://rental-room-backend-642g.onrender.com node scripts/smoke-business-workflow.mjs
+```
+
+The script verifies:
+
+- Owner register/login.
+- Owner creates room, tenant, contract, and bill.
+- Active contract changes room status to `OCCUPIED`.
+- Tenant login works.
+- Tenant bill list only contains that tenant's bills.
+- Tenant mock payment marks bill as `PAID`.
+- Owner dashboard monthly revenue becomes positive.
+- Ending the contract changes room status back to `AVAILABLE`.
+
+## CI
+
+GitHub Actions runs on pushes to `main` and pull requests:
+
+- Backend: `./mvnw test`
+- Frontend: `npm ci`, `npm run build`, `npm run lint`
+
 ## Vercel Frontend Deployment
 
 Day 26 deploys the React/Vite frontend to Vercel.
@@ -228,6 +278,14 @@ After deployment, check:
 ```text
 https://your-render-backend.onrender.com/health
 https://your-render-backend.onrender.com/swagger-ui/index.html
+```
+
+## CV Summary
+
+Suggested CV bullet:
+
+```text
+Built and deployed a full-stack rental room management platform with Spring Boot, PostgreSQL, JWT role-based auth, React, TypeScript, owner/tenant dashboards, contract lifecycle automation, billing, mock payments, CI, and AI-assisted owner workflows.
 ```
 
 ## Login Rate Limit
