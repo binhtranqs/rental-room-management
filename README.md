@@ -13,7 +13,7 @@ Health:   https://rental-room-backend-642g.onrender.com/health
 Swagger:  https://rental-room-backend-642g.onrender.com/swagger-ui/index.html
 ```
 
-Day 28 deployed smoke test passed:
+Final deployed MVP smoke test passed:
 
 - Frontend Vercel root and protected route refresh return `200`.
 - Backend Render `/health` returns `{"status":"ok"}`.
@@ -40,6 +40,8 @@ Demo and interview prep:
 
 - [Demo script](docs/demo-script.md)
 - [Interview notes](docs/interview-notes.md)
+- [Final release checklist](docs/final-release-checklist.md)
+- [Release notes](docs/release-notes.md)
 
 ## Screenshots
 
