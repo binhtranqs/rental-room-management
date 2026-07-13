@@ -138,6 +138,42 @@ The frontend calls the backend at `http://localhost:8080` by default. Override i
 VITE_API_BASE_URL=http://localhost:8080 npm run dev
 ```
 
+## Vercel Frontend Deployment
+
+Day 26 deploys the React/Vite frontend to Vercel.
+
+Deploy steps:
+
+1. Open Vercel Dashboard and choose `Add New > Project`.
+2. Import the GitHub repo `binhtranqs/rental-room-management`.
+3. Set the project root directory to `frontend`.
+4. Keep framework preset as `Vite`.
+5. Confirm build settings:
+
+```text
+Install Command: npm install
+Build Command: npm run build
+Output Directory: dist
+```
+
+6. Add this environment variable:
+
+```text
+VITE_API_BASE_URL=https://rental-room-backend-642g.onrender.com
+```
+
+7. Deploy.
+
+`frontend/vercel.json` rewrites all frontend routes to `index.html`, so refreshing protected React Router pages does not return a Vercel 404.
+
+After Vercel gives you a frontend URL, update Render `rental-room-backend` environment:
+
+```text
+APP_CORS_ALLOWED_ORIGINS=https://your-vercel-domain.vercel.app
+```
+
+Then redeploy or restart the Render backend.
+
 ## Render Backend Deployment
 
 Day 25 prepares backend deployment with `render.yaml` at the repository root. The Blueprint creates:
