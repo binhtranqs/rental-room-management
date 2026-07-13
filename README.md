@@ -34,6 +34,24 @@ Password for both: Demo123456
 
 Render free instances sleep, so the first backend request can take around 30-60 seconds.
 
+## Screenshots
+
+### Landing page
+
+![Rental Room landing page](docs/screenshots/landing.png)
+
+### Login
+
+![Rental Room login page](docs/screenshots/login.png)
+
+### Owner dashboard
+
+![Rental Room owner dashboard](docs/screenshots/owner-dashboard.png)
+
+### Tenant dashboard
+
+![Rental Room tenant dashboard](docs/screenshots/tenant-dashboard.png)
+
 ## Current Scope
 
 Day 1-2 foundation is in place:
