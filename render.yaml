@@ -36,5 +36,6 @@ services:
 
 databases:
   - name: rental-room-db
+    plan: free
     databaseName: rental_room_db
     user: rental_room_user
