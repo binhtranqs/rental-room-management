@@ -6,14 +6,14 @@ import {
   type ReactNode,
 } from 'react'
 
-import { getCurrentUserRequest, loginRequest } from '@/api/auth'
+import { getCurrentUserRequest, loginRequest, registerRequest } from '@/api/auth'
 import {
   clearAccessToken,
   getAccessToken,
   saveAccessToken,
 } from '@/api/client'
 import { AuthContext } from '@/auth/auth-context'
-import type { LoginPayload, User } from '@/types/auth'
+import type { LoginPayload, RegisterPayload, User } from '@/types/auth'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -53,6 +53,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return currentUser
   }, [])
 
+  const register = useCallback(async (payload: RegisterPayload) => {
+    const auth = await registerRequest(payload)
+    saveAccessToken(auth.accessToken)
+
+    const currentUser = await getCurrentUserRequest()
+    setUser(currentUser)
+
+    return currentUser
+  }, [])
+
   useEffect(() => {
     void refreshUser()
   }, [refreshUser])
@@ -62,10 +72,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isLoading,
       login,
+      register,
       logout,
       refreshUser,
     }),
-    [user, isLoading, login, logout, refreshUser],
+    [user, isLoading, login, register, logout, refreshUser],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

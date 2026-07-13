@@ -57,11 +57,11 @@ export function TenantDashboardPage() {
 
   return (
     <section className="space-y-6">
-      <div className="rounded-md border border-border bg-card p-6 shadow-sm">
-        <p className="text-sm font-semibold uppercase text-secondary">
+      <div className="rounded-lg page-panel p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
           Tenant dashboard
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-foreground">
+        <h1 className="mt-2 text-3xl font-bold text-foreground">
           Welcome, {user?.name}
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
@@ -73,7 +73,7 @@ export function TenantDashboardPage() {
         <div className="grid gap-4 md:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
-              className="h-32 animate-pulse rounded-md border border-border bg-card shadow-sm"
+              className="h-32 animate-pulse rounded-lg data-card"
               key={index}
             />
           ))}
@@ -111,10 +111,10 @@ export function TenantDashboardPage() {
             />
           </div>
 
-          <article className="rounded-md border border-border bg-card p-6 shadow-sm">
+          <article className="rounded-lg page-panel p-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-xl font-semibold text-foreground">
+                <h2 className="text-xl font-bold text-foreground">
                   Recent bills
                 </h2>
                 <p className="mt-1 text-sm text-muted">
@@ -168,7 +168,7 @@ function MetricCard({
   icon: typeof ReceiptText
 }) {
   return (
-    <div className="rounded-md border border-border bg-card p-5 shadow-sm">
+    <div className="rounded-lg data-card p-5">
       <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
       <p className="mt-4 text-sm text-muted">{label}</p>
       <p className="mt-2 text-2xl font-semibold text-foreground">{value}</p>

@@ -8,16 +8,16 @@ const statusLabels: Record<BillStatus, string> = {
 }
 
 const statusClasses: Record<BillStatus, string> = {
-  UNPAID: 'border-amber-200 bg-amber-50 text-amber-700',
-  PAID: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-  OVERDUE: 'border-red-200 bg-red-50 text-red-700',
+  UNPAID: 'border-[#ecc77c] bg-[#fff1d7] text-[#8a5425]',
+  PAID: 'border-[#9ecfb9] bg-[#e8f6e9] text-[#0b654e]',
+  OVERDUE: 'border-[#efb7aa] bg-[#fff1ec] text-[#a34a34]',
 }
 
 export function BillStatusBadge({ status }: { status: BillStatus }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium',
+        'status-badge border',
         statusClasses[status],
       )}
     >

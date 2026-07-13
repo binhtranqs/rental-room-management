@@ -10,6 +10,7 @@ import { HomePage } from '@/pages/HomePage'
 import { LoginPage } from '@/pages/LoginPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { OwnerDashboardPage } from '@/pages/OwnerDashboardPage'
+import { RegisterPage } from '@/pages/RegisterPage'
 import { RoomCreatePage } from '@/pages/RoomCreatePage'
 import { RoomDetailPage } from '@/pages/RoomDetailPage'
 import { RoomEditPage } from '@/pages/RoomEditPage'
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'register',
+        element: <RegisterPage />,
+      },
+      {
+        path: 'register-owner',
+        element: <RegisterPage />,
       },
       {
         element: <ProtectedRoute allowedRoles={['OWNER']} />,

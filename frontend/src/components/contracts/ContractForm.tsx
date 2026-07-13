@@ -47,7 +47,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Tenant</span>
           <select
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={tenantId}
             onChange={(event) => setTenantId(event.target.value)}
             required
@@ -66,7 +66,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Room</span>
           <select
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={roomId}
             onChange={(event) => setRoomId(event.target.value)}
             required
@@ -87,7 +87,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Start date</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="date"
             value={startDate}
             onChange={(event) => setStartDate(event.target.value)}
@@ -98,7 +98,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">End date</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="date"
             value={endDate}
             onChange={(event) => setEndDate(event.target.value)}
@@ -109,7 +109,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Status</span>
           <select
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={status}
             onChange={(event) => setStatus(event.target.value as ContractStatus)}
             required
@@ -124,7 +124,7 @@ export function ContractForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Deposit</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="number"
             min="0"
             step="1000"
@@ -139,7 +139,7 @@ export function ContractForm({
             Monthly rent
           </span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="number"
             min="0"
             step="1000"

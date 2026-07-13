@@ -8,16 +8,16 @@ const statusLabels: Record<RoomStatus, string> = {
 }
 
 const statusClasses: Record<RoomStatus, string> = {
-  AVAILABLE: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-  OCCUPIED: 'border-blue-200 bg-blue-50 text-blue-700',
-  MAINTENANCE: 'border-amber-200 bg-amber-50 text-amber-700',
+  AVAILABLE: 'border-[#9ee7b5] bg-[#eff8d2] text-[#355a2c]',
+  OCCUPIED: 'border-[#9ecfb9] bg-[#e8f6e9] text-[#0b654e]',
+  MAINTENANCE: 'border-[#ecc77c] bg-[#fff1d7] text-[#8a5425]',
 }
 
 export function RoomStatusBadge({ status }: { status: RoomStatus }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium',
+        'status-badge border',
         statusClasses[status],
       )}
     >

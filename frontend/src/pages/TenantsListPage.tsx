@@ -64,12 +64,12 @@ export function TenantsListPage() {
 
   return (
     <section className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 rounded-md border border-border bg-card p-6 shadow-sm sm:flex-row sm:items-start">
+      <div className="flex flex-col justify-between gap-4 rounded-lg page-panel p-6 sm:flex-row sm:items-start">
         <div>
-          <p className="text-sm font-semibold uppercase text-secondary">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             Tenants
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-foreground">
+          <h1 className="mt-2 text-3xl font-bold text-foreground">
             Manage tenants
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
@@ -86,7 +86,7 @@ export function TenantsListPage() {
       </div>
 
       <form
-        className="grid gap-3 rounded-md border border-border bg-card p-4 shadow-sm md:grid-cols-[1fr_auto]"
+        className="grid gap-3 rounded-lg form-surface p-4 md:grid-cols-[1fr_auto]"
         onSubmit={handleSearch}
       >
         <label className="block">
@@ -97,7 +97,7 @@ export function TenantsListPage() {
               aria-hidden="true"
             />
             <input
-              className="h-11 w-full rounded-md border border-border bg-white pl-9 pr-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+              className="field-control pl-9"
               placeholder="Search by name, email, phone, identity number"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
@@ -112,7 +112,7 @@ export function TenantsListPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
-              className="h-36 animate-pulse rounded-md border border-border bg-card shadow-sm"
+              className="h-36 animate-pulse rounded-lg data-card"
               key={index}
             />
           ))}
@@ -126,8 +126,8 @@ export function TenantsListPage() {
       ) : null}
 
       {!isLoading && !error && tenantsPage?.content.length === 0 ? (
-        <div className="rounded-md border border-border bg-card p-8 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-foreground">
+        <div className="rounded-lg page-panel p-8 text-center">
+          <h2 className="text-xl font-bold text-foreground">
             No tenants found
           </h2>
           <p className="mt-2 text-sm text-muted">
@@ -144,10 +144,10 @@ export function TenantsListPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {tenantsPage.content.map((tenant) => (
               <article
-                className="rounded-md border border-border bg-card p-5 shadow-sm"
+                className="rounded-lg data-card p-5"
                 key={tenant.id}
               >
-                <h2 className="text-xl font-semibold text-foreground">
+                <h2 className="text-xl font-bold text-foreground">
                   {tenant.name}
                 </h2>
                 <p className="mt-1 text-sm text-muted">{tenant.email}</p>
@@ -155,13 +155,13 @@ export function TenantsListPage() {
                 <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted">Phone</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {tenant.phone}
                     </p>
                   </div>
                   <div>
                     <p className="text-muted">Created</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {formatDateTime(tenant.createdAt)}
                     </p>
                   </div>
@@ -179,7 +179,7 @@ export function TenantsListPage() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between rounded-md border border-border bg-card p-4 text-sm text-muted shadow-sm">
+          <div className="flex items-center justify-between rounded-lg form-surface p-4 text-sm text-muted">
             <span>
               Page {tenantsPage.number + 1} of{' '}
               {Math.max(tenantsPage.totalPages, 1)}

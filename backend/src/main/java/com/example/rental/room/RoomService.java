@@ -72,7 +72,7 @@ public class RoomService {
 
 	private String normalizeKeyword(String keyword) {
 		if (keyword == null || keyword.isBlank()) {
-			return null;
+			return "";
 		}
 		return keyword.trim();
 	}

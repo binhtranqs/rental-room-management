@@ -14,6 +14,11 @@ export type LoginPayload = {
   password: string
 }
 
+export type RegisterPayload = LoginPayload & {
+  name: string
+  role: UserRole
+}
+
 export type AuthResponse = {
   accessToken: string
   tokenType: 'Bearer'

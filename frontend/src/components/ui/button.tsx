@@ -5,15 +5,16 @@ import type { ButtonHTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px',
   {
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground hover:bg-blue-700 focus-visible:outline-primary',
+          'bg-[#0b4a3a] text-primary-foreground shadow-sm shadow-emerald-950/18 hover:-translate-y-0.5 hover:bg-[#12372c] hover:shadow-md hover:shadow-emerald-950/20 focus-visible:outline-primary',
         secondary:
-          'border border-border bg-card text-foreground hover:bg-slate-100 focus-visible:outline-secondary',
-        ghost: 'text-muted hover:bg-slate-100 hover:text-foreground focus-visible:outline-primary',
+          'border border-[#1b342b]/12 bg-white/78 text-foreground shadow-sm shadow-stone-900/5 backdrop-blur hover:-translate-y-0.5 hover:border-emerald-800/25 hover:bg-white focus-visible:outline-secondary',
+        ghost:
+          'text-muted hover:bg-white/70 hover:text-foreground focus-visible:outline-primary',
       },
       size: {
         default: 'h-10 px-4',

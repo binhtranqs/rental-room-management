@@ -59,7 +59,7 @@ export function RoomDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="h-72 animate-pulse rounded-md border border-border bg-card shadow-sm" />
+      <div className="h-72 animate-pulse rounded-lg data-card" />
     )
   }
 
@@ -77,7 +77,7 @@ export function RoomDetailPage() {
 
   return (
     <section className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 rounded-md border border-border bg-card p-6 shadow-sm sm:flex-row sm:items-start">
+      <div className="flex flex-col justify-between gap-4 rounded-lg page-panel p-6 sm:flex-row sm:items-start">
         <div>
           <Button asChild variant="ghost" size="sm" className="-ml-3 mb-3">
             <Link to="/owner/rooms">
@@ -86,7 +86,7 @@ export function RoomDetailPage() {
             </Link>
           </Button>
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl font-semibold text-foreground">
+            <h1 className="text-3xl font-bold text-foreground">
               {room.name}
             </h1>
             <RoomStatusBadge status={room.status} />
@@ -120,7 +120,7 @@ export function RoomDetailPage() {
         <InfoCard label="Updated" value={formatDateTime(room.updatedAt)} />
       </div>
 
-      <article className="rounded-md border border-border bg-card p-6 shadow-sm">
+      <article className="rounded-lg page-panel p-6">
         <h2 className="text-lg font-semibold text-foreground">Description</h2>
         <p className="mt-3 text-sm leading-6 text-muted">
           {room.description || 'No description'}
@@ -132,7 +132,7 @@ export function RoomDetailPage() {
 
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-border bg-card p-5 shadow-sm">
+    <div className="rounded-lg data-card p-5">
       <p className="text-sm text-muted">{label}</p>
       <p className="mt-2 text-lg font-semibold text-foreground">{value}</p>
     </div>

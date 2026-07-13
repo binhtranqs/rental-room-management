@@ -7,6 +7,10 @@ export function getErrorMessage(exception: unknown, fallback: string) {
     if (isApiError(data)) {
       return data.message
     }
+
+    if (exception.code === 'ERR_NETWORK' || !exception.response) {
+      return 'Cannot reach the API server. Check that the backend is running or set VITE_API_BASE_URL.'
+    }
   }
 
   return fallback

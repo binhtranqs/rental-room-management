@@ -1,8 +1,14 @@
 import { apiClient } from '@/api/client'
-import type { AuthResponse, LoginPayload, User } from '@/types/auth'
+import type { AuthResponse, LoginPayload, RegisterPayload, User } from '@/types/auth'
 
 export async function loginRequest(payload: LoginPayload) {
   const response = await apiClient.post<AuthResponse>('/auth/login', payload)
+
+  return response.data
+}
+
+export async function registerRequest(payload: RegisterPayload) {
+  const response = await apiClient.post<AuthResponse>('/auth/register', payload)
 
   return response.data
 }

@@ -87,9 +87,9 @@ export function BillsListPage() {
 
   return (
     <section className="space-y-6">
-      <div className="rounded-md border border-border bg-card p-6 shadow-sm">
-        <p className="text-sm font-semibold uppercase text-secondary">Bills</p>
-        <h1 className="mt-2 text-3xl font-semibold text-foreground">
+      <div className="rounded-lg page-panel p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">Bills</p>
+        <h1 className="mt-2 text-3xl font-bold text-foreground">
           {user?.role === 'TENANT' ? 'My bills' : 'Manage bills'}
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
@@ -98,7 +98,7 @@ export function BillsListPage() {
       </div>
 
       <form
-        className="grid gap-3 rounded-md border border-border bg-card p-4 shadow-sm lg:grid-cols-[1fr_180px_180px_auto]"
+        className="grid gap-3 rounded-lg form-surface p-4 lg:grid-cols-[1fr_180px_180px_auto]"
         onSubmit={handleSearch}
       >
         <label className="block">
@@ -109,7 +109,7 @@ export function BillsListPage() {
               aria-hidden="true"
             />
             <input
-              className="h-11 w-full rounded-md border border-border bg-white pl-9 pr-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+              className="field-control pl-9"
               placeholder="Search by tenant, email, room"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
@@ -118,7 +118,7 @@ export function BillsListPage() {
         </label>
 
         <select
-          className="h-11 rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+          className="field-control"
           value={status}
           onChange={(event) => setStatus(event.target.value as BillStatus | '')}
         >
@@ -130,7 +130,7 @@ export function BillsListPage() {
         </select>
 
         <input
-          className="h-11 rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+          className="field-control"
           type="date"
           value={month}
           onChange={(event) => setMonth(event.target.value)}
@@ -143,7 +143,7 @@ export function BillsListPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
-              className="h-40 animate-pulse rounded-md border border-border bg-card shadow-sm"
+              className="h-40 animate-pulse rounded-lg data-card"
               key={index}
             />
           ))}
@@ -157,8 +157,8 @@ export function BillsListPage() {
       ) : null}
 
       {!isLoading && !error && billsPage?.content.length === 0 ? (
-        <div className="rounded-md border border-border bg-card p-8 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-foreground">No bills found</h2>
+        <div className="rounded-lg page-panel p-8 text-center">
+          <h2 className="text-xl font-bold text-foreground">No bills found</h2>
           <p className="mt-2 text-sm text-muted">Adjust the filters and try again.</p>
         </div>
       ) : null}
@@ -168,12 +168,12 @@ export function BillsListPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {billsPage.content.map((bill) => (
               <article
-                className="rounded-md border border-border bg-card p-5 shadow-sm"
+                className="rounded-lg data-card p-5"
                 key={bill.id}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground">
+                    <h2 className="text-xl font-bold text-foreground">
                       {bill.roomName}
                     </h2>
                     <p className="mt-1 text-sm text-muted">
@@ -186,13 +186,13 @@ export function BillsListPage() {
                 <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted">Total</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {currencyFormatter.format(bill.totalAmount)}
                     </p>
                   </div>
                   <div>
                     <p className="text-muted">Due date</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {bill.dueDate}
                     </p>
                   </div>
@@ -207,7 +207,7 @@ export function BillsListPage() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between rounded-md border border-border bg-card p-4 text-sm text-muted shadow-sm">
+          <div className="flex items-center justify-between rounded-lg form-surface p-4 text-sm text-muted">
             <span>
               Page {billsPage.number + 1} of {Math.max(billsPage.totalPages, 1)}
             </span>

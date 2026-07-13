@@ -28,20 +28,20 @@ export function RoomCreatePage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-6">
-      <div className="rounded-md border border-border bg-card p-6 shadow-sm">
+      <div className="rounded-lg page-panel p-6">
         <Button asChild variant="ghost" size="sm" className="-ml-3 mb-3">
           <Link to="/owner/rooms">
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back
           </Link>
         </Button>
-        <h1 className="text-3xl font-semibold text-foreground">New room</h1>
+        <h1 className="text-3xl font-bold text-foreground">New room</h1>
         <p className="mt-3 text-sm leading-6 text-muted">
           Add a room and make it available for contracts.
         </p>
       </div>
 
-      <div className="rounded-md border border-border bg-card p-6 shadow-sm">
+      <div className="rounded-lg page-panel p-6">
         {error ? (
           <p className="mb-5 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-destructive">
             {error}

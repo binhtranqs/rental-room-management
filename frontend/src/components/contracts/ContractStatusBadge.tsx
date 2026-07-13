@@ -8,16 +8,16 @@ const statusLabels: Record<ContractStatus, string> = {
 }
 
 const statusClasses: Record<ContractStatus, string> = {
-  ACTIVE: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-  ENDED: 'border-slate-200 bg-slate-50 text-slate-700',
-  CANCELLED: 'border-red-200 bg-red-50 text-red-700',
+  ACTIVE: 'border-[#9ecfb9] bg-[#e8f6e9] text-[#0b654e]',
+  ENDED: 'border-[#d8ddd5] bg-[#f1f4ef] text-[#617068]',
+  CANCELLED: 'border-[#efb7aa] bg-[#fff1ec] text-[#a34a34]',
 }
 
 export function ContractStatusBadge({ status }: { status: ContractStatus }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium',
+        'status-badge border',
         statusClasses[status],
       )}
     >

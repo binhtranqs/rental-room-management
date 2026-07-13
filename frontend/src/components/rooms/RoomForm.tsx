@@ -47,7 +47,7 @@ export function RoomForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Room name</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
@@ -57,7 +57,7 @@ export function RoomForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Status</span>
           <select
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={status}
             onChange={(event) => setStatus(event.target.value as RoomStatus)}
             required
@@ -74,7 +74,7 @@ export function RoomForm({
       <label className="block">
         <span className="text-sm font-medium text-foreground">Address</span>
         <input
-          className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+          className="field-control mt-2"
           value={address}
           onChange={(event) => setAddress(event.target.value)}
           required
@@ -85,7 +85,7 @@ export function RoomForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Area (m2)</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="number"
             min="0"
             step="0.1"
@@ -98,7 +98,7 @@ export function RoomForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Price</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="number"
             min="0"
             step="1000"
@@ -112,7 +112,7 @@ export function RoomForm({
       <label className="block">
         <span className="text-sm font-medium text-foreground">Description</span>
         <textarea
-          className="mt-2 min-h-28 w-full resize-y rounded-md border border-border bg-white px-3 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+          className="field-control mt-2 min-h-28 resize-y py-3"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         />

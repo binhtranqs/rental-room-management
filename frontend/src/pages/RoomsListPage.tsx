@@ -78,12 +78,12 @@ export function RoomsListPage() {
 
   return (
     <section className="space-y-6">
-      <div className="flex flex-col justify-between gap-4 rounded-md border border-border bg-card p-6 shadow-sm sm:flex-row sm:items-start">
+      <div className="flex flex-col justify-between gap-4 rounded-lg page-panel p-6 sm:flex-row sm:items-start">
         <div>
-          <p className="text-sm font-semibold uppercase text-secondary">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             Rooms
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-foreground">
+          <h1 className="mt-2 text-3xl font-bold text-foreground">
             Manage rooms
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
@@ -100,7 +100,7 @@ export function RoomsListPage() {
       </div>
 
       <form
-        className="grid gap-3 rounded-md border border-border bg-card p-4 shadow-sm md:grid-cols-[1fr_220px_auto]"
+        className="grid gap-3 rounded-lg form-surface p-4 md:grid-cols-[1fr_220px_auto]"
         onSubmit={handleSearch}
       >
         <label className="block">
@@ -111,7 +111,7 @@ export function RoomsListPage() {
               aria-hidden="true"
             />
             <input
-              className="h-11 w-full rounded-md border border-border bg-white pl-9 pr-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+              className="field-control pl-9"
               placeholder="Search by name, address, description"
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
@@ -122,7 +122,7 @@ export function RoomsListPage() {
         <label className="block">
           <span className="sr-only">Filter by status</span>
           <select
-            className="h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control"
             value={status}
             onChange={(event) => setStatus(event.target.value as RoomStatus | '')}
           >
@@ -141,7 +141,7 @@ export function RoomsListPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
-              className="h-36 animate-pulse rounded-md border border-border bg-card shadow-sm"
+              className="h-36 animate-pulse rounded-lg data-card"
               key={index}
             />
           ))}
@@ -155,8 +155,8 @@ export function RoomsListPage() {
       ) : null}
 
       {!isLoading && !error && roomsPage?.content.length === 0 ? (
-        <div className="rounded-md border border-border bg-card p-8 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-foreground">
+        <div className="rounded-lg page-panel p-8 text-center">
+          <h2 className="text-xl font-bold text-foreground">
             No rooms found
           </h2>
           <p className="mt-2 text-sm text-muted">
@@ -173,12 +173,12 @@ export function RoomsListPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {roomsPage.content.map((room) => (
               <article
-                className="rounded-md border border-border bg-card p-5 shadow-sm"
+                className="rounded-lg data-card p-5"
                 key={room.id}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-foreground">
+                    <h2 className="text-xl font-bold text-foreground">
                       {room.name}
                     </h2>
                     <p className="mt-1 text-sm text-muted">{room.address}</p>
@@ -189,13 +189,13 @@ export function RoomsListPage() {
                 <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted">Area</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {numberFormatter.format(room.area)} m2
                     </p>
                   </div>
                   <div>
                     <p className="text-muted">Price</p>
-                    <p className="mt-1 font-medium text-foreground">
+                    <p className="mt-1 font-semibold text-foreground metric-number">
                       {currencyFormatter.format(room.price)}
                     </p>
                   </div>
@@ -213,7 +213,7 @@ export function RoomsListPage() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between rounded-md border border-border bg-card p-4 text-sm text-muted shadow-sm">
+          <div className="flex items-center justify-between rounded-lg form-surface p-4 text-sm text-muted">
             <span>
               Page {roomsPage.number + 1} of {Math.max(roomsPage.totalPages, 1)}
             </span>

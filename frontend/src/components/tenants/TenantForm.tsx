@@ -62,7 +62,7 @@ export function TenantForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Name</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
@@ -72,7 +72,7 @@ export function TenantForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Email</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -85,7 +85,7 @@ export function TenantForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Password</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             type="password"
             minLength={6}
             value={password}
@@ -99,7 +99,7 @@ export function TenantForm({
         <label className="block">
           <span className="text-sm font-medium text-foreground">Phone</span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
             required
@@ -111,7 +111,7 @@ export function TenantForm({
             Identity number
           </span>
           <input
-            className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+            className="field-control mt-2"
             value={identityNumber}
             onChange={(event) => setIdentityNumber(event.target.value)}
             required
@@ -124,7 +124,7 @@ export function TenantForm({
           Emergency contact
         </span>
         <input
-          className="mt-2 h-11 w-full rounded-md border border-border bg-white px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-blue-100"
+          className="field-control mt-2"
           value={emergencyContact}
           onChange={(event) => setEmergencyContact(event.target.value)}
         />
