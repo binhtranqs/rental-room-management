@@ -1,5 +1,7 @@
 # Rental Room Management
 
+[![CI](https://github.com/binhtranqs/rental-room-management/actions/workflows/ci.yml/badge.svg)](https://github.com/binhtranqs/rental-room-management/actions/workflows/ci.yml)
+
 Full-stack rental room management project for internship CV.
 
 ## Deployed MVP
@@ -33,6 +35,11 @@ Password for both: Demo123456
 ```
 
 Render free instances sleep, so the first backend request can take around 30-60 seconds.
+
+Demo and interview prep:
+
+- [Demo script](docs/demo-script.md)
+- [Interview notes](docs/interview-notes.md)
 
 ## Screenshots
 
